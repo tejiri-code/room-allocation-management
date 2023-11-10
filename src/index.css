@@ -1,13 +1,37 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* src/tailwind.css */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom Tailwind CSS */
+
+/* Add some color classes */
+@layer utilities {
+  .text-blue {
+    @apply text-blue-500;
+  }
+
+  .bg-blue {
+    @apply bg-blue-500;
+  }
+
+  .hover\:bg-blue-hover:hover {
+    @apply hover:bg-blue-700;
+  }
+
+  .border-blue {
+    @apply border-blue-500;
+  }
+
+  .focus\:border-blue-focus:focus {
+    @apply focus:border-blue-700;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Increase container width */
+@layer components {
+  .container {
+    max-width: 800px;
+  }
 }
