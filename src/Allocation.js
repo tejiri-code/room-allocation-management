@@ -81,6 +81,42 @@ function Allocation() {
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="checkIn"
+          >
+            Check In Date
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue focus:border-blue-focus"
+            id="checkIn"
+            type="date"
+            placeholder="Check In Date"
+            name="checkIn"
+            value={formData.checkIn}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="checkOut"
+          >
+            Check Out Date
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue focus:border-blue-focus"
+            id="checkOut"
+            type="date"
+            placeholder="Check Out Date"
+            name="checkOut"
+            value={formData.checkOut}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="guestName"
           >
             Guest Name
@@ -92,6 +128,24 @@ function Allocation() {
             placeholder="Guest Name"
             name="guestName"
             value={formData.guestName}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="guestContact"
+          >
+            Guest Contact
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue focus:border-blue-focus"
+            id="guestContact"
+            type="phone"
+            placeholder="Guest Contact"
+            name="guestContact"
+            value={formData.guestContact}
             onChange={handleInputChange}
           />
         </div>

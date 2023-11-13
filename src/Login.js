@@ -23,10 +23,10 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <div className="mb-4">
           <label htmlFor="username" className="text-sm font-medium text-gray-600">
-            Username
+            Work E-mail
           </label>
           <input
-            type="text"
+            type="email"
             id="username"
             className="mt-1 p-2 w-full border rounded-md"
             onChange={(e) => setUsername(e.target.value)}
