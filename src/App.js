@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Allocation from './Allocation';
 import Login from './Login';
 import Home from './Home';
+import axios from 'axios';
 
 function App() {
+      
   return (
    
       <Routes>

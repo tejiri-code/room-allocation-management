@@ -9,33 +9,40 @@ function Allocation() {
   const [formData, setFormData] = useState({
     roomNumber: "",
     guestName: "",
+    checkIn: "",
+    checkOut: "",
+    guestContact: "",
+    roomType: "Standard", // Default room type
   });
-  const sampleEvents = [
-    {
-      start: new Date(),
-      end: new Date(),
-      title: "Sample Event",
-    },
-    // Add more events as needed
-  ];
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleAddRoom = () => {
-    if (formData.roomNumber && formData.guestName) {
-      setRooms([...rooms, { ...formData }]);
+    if (
+      formData.roomNumber &&
+      formData.guestName &&
+      formData.checkIn &&
+      formData.checkOut
+    ) {
+      const newRoom = { ...formData };
+      setRooms([...rooms, newRoom]);
       setFormData({
         roomNumber: "",
         guestName: "",
+        checkIn: "",
+        checkOut: "",
+        guestContact: "",
+        roomType: "Standard", // Reset room type to default after adding a room
       });
     }
   };
 
   const handleDeleteRoom = (index) => {
     const updatedRooms = [...rooms];
-    const deletedRoom = updatedRooms.splice(index, 1)[0]; // Remove the deleted room
+    const deletedRoom = updatedRooms.splice(index, 1)[0];
 
     // TODO: Call a function to remove the deleted room from the scheduling data
     // updateSchedulingData(deletedRoom);
@@ -150,6 +157,27 @@ function Allocation() {
           />
         </div>
 
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="roomType"
+          >
+            Room Type
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue focus:border-blue-focus"
+            id="roomType"
+            name="roomType"
+            value={formData.roomType}
+            onChange={handleInputChange}
+          >
+            <option value="Standard">Standard</option>
+            <option value="Deluxe">Deluxe</option>
+            <option value="Suite">Suite</option>
+            <option value="Penthouse">Penthouse</option>
+          </select>
+        </div>
+
         <button
           className="bg-blue hover:bg-blue-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
           type="button"
@@ -178,7 +206,7 @@ function Allocation() {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           title="Information Modal"
-          content="This is some additional information."
+          content={rooms && rooms.length > 0 ? "Rooms are allocated" : "No rooms are allocated"}
         />
 
         <div className="mt-8">

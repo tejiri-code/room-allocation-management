@@ -9,9 +9,9 @@ function SchedulingCalendar({ rooms }) {
   // TODO: Use the rooms data to render events on the calendar
 
   const events = rooms.map((room) => ({
-    start: new Date(), // Replace with the actual start date/time of the room reservation
-    end: new Date(), // Replace with the actual end date/time of the room reservation
-    title: `Room ${room.roomNumber}: ${room.guestName}`,
+    start: new Date(room.checkIn),
+    end: new Date(room.checkOut),
+    title: `Room ${room.roomNumber}: ${room.guestName} ${room.guestContact}`,
   }));
 
   const handleSelectSlot = ({ start, end }) => {

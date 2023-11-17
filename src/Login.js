@@ -30,6 +30,7 @@ const Login = () => {
             id="username"
             className="mt-1 p-2 w-full border rounded-md"
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
         <div className="mb-4">
@@ -41,6 +42,7 @@ const Login = () => {
             id="password"
             className="mt-1 p-2 w-full border rounded-md"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <button
