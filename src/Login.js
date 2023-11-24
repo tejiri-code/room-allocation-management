@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notify } from './Notification';
+import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log('Username:', username);
-    console.log('Password:', password);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8082/login', {
+        E_mail: username,
+        Password: password,
+      });
 
-    // Assuming successful login, navigate to the allocation page
-    notify('Login successful!');
-    navigate('/allocation');
+      const data = response.data;
+
+      if (data.code === 200) {
+        notify('Login successful!');
+        navigate('/allocation');
+      } else {
+        notify('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+      notify('An error occurred while trying to log in.');
+    }
   };
 
   return (

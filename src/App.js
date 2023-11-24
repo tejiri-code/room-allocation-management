@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Allocation from './Allocation';
+import { Routes, Route } from 'react-router-dom';
+import Allocation from './allocation';
 import Login from './Login';
 import Home from './Home';
-import axios from 'axios';
+
 
 function App() {
       

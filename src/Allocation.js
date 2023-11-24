@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useState } from "react";
 import Modal from "./Modal";
+import axios from "axios";
 import SchedulingCalendar from "./SchedulingCalendar";
 
 function Allocation() {
@@ -15,12 +16,62 @@ function Allocation() {
     roomType: "Standard", // Default room type
   });
 
+
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleAddRoom = () => {
+  const handleAddRoom = async () => {
+    console.log(formData);
+    // Check if required fields are provided
+    if (
+      !formData.guestName ||
+      !formData.roomNumber ||
+      !formData.checkIn ||
+      !formData.checkOut ||
+      !formData.guestContact
+    ) {
+      console.error("Please fill in all required fields");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8082/createReservation",
+        {
+          roomId: formData.roomNumber,
+          checkInDate: formData.checkIn,
+          checkOutDate: formData.checkOut,
+          guestName: formData.guestName,
+          guestContact: formData.guestContact,
+          roomType: formData.roomType,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.code === 200) {
+        setRooms([...rooms, response.data.data]);
+        setFormData({
+          roomNumber: "",
+          guestName: "",
+          checkIn: "",
+          checkOut: "",
+          guestContact: "",
+          roomType: "Standard", // Reset room type to default after adding a room
+        });
+      } else {
+        console.error("Reservation failed:", response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     if (
       formData.roomNumber &&
       formData.guestName &&
@@ -35,7 +86,7 @@ function Allocation() {
         checkIn: "",
         checkOut: "",
         guestContact: "",
-        roomType: "Standard", // Reset room type to default after adding a room
+        roomType: "Standard",// Reset room type to default after adding a room
       });
     }
   };
@@ -206,7 +257,11 @@ function Allocation() {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           title="Information Modal"
-          content={rooms && rooms.length > 0 ? "Rooms are allocated" : "No rooms are allocated"}
+          content={
+            rooms && rooms.length > 0
+              ? "Rooms are allocated"
+              : "No rooms are allocated"
+          }
         />
 
         <div className="mt-8">
