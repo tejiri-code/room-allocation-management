@@ -1,11 +1,11 @@
 // src/App.js
 import React, { useState } from "react";
-import Modal from "./Modal";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import SchedulingCalendar from "./SchedulingCalendar";
 
 function Allocation() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [rooms, setRooms] = useState([]);
   const [formData, setFormData] = useState({
     roomNumber: "",
@@ -22,6 +22,7 @@ function Allocation() {
   };
 
   const handleAddRoom = async () => {
+    
     console.log(formData);
     // Check if required fields are provided
     if (
@@ -105,13 +106,7 @@ function Allocation() {
     setRooms([]);
   };
 
-  const handleShowModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+ 
 
   return (
     <div className="App">
@@ -245,24 +240,9 @@ function Allocation() {
           Clear All
         </button>
 
-        <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-          type="button"
-          onClick={handleShowModal}
-        >
-          Show Info
-        </button>
-
-        <Modal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          title="Information Modal"
-          content={
-            rooms && rooms.length > 0
-              ? "Rooms are allocated"
-              : "No rooms are allocated"
-          }
-        />
+        <Link to="/reservationList" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">
+        Show Info
+      </Link>
 
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4 text-blue">

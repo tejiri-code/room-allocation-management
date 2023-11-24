@@ -48,9 +48,16 @@ app.post("/createReservation", async (req, res) => {
     roomType,
   } = req.body;
 
+  const capacityQuery = "SELECT Capacity FROM Room WHERE Room_Type = ?";
+  const [capacityResult] = await connection
+    .promise()
+    .query(capacityQuery, [roomType]);
+
+  const capacity = capacityResult[0]?.Capacity || 0;
+  
   // Insert into the Room table
-  const roomSql = "INSERT INTO Room (`Room_Number`, `Room_Type`) VALUES (?, ?)";
-  const roomValues = [roomNumber, roomType];
+  const roomSql = "INSERT INTO Room (`Room_Number`, `Room_Type` ,`Capacity`) VALUES (?, ?, ?)";
+  const roomValues = [roomNumber, roomType,capacity];
 
   try {
     
@@ -84,7 +91,7 @@ app.post("/createReservation", async (req, res) => {
 
   // Retrieve the Room_ID after insertion
   const roomId = roomResult.insertId;
-  
+
     // Insert into the Reservation table with the retrieved Guest_ID
     const reservationSql =
       "INSERT INTO Reservation (`Room_ID`, `Guest_ID`, `Check_In_Date`, `Check_Out_Date`) VALUES (?, ?, ?, ?)";
