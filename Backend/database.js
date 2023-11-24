@@ -38,39 +38,61 @@ app.get("/showInfo", (err, res, fields) => {
   });
 });
 app.post("/createReservation", async (req, res) => {
-  console.log("Request Body:", req.body); 
-  const { roomId, checkInDate, checkOutDate, guestName, guestContact, roomType } = req.body;
-
+  console.log("Request Body:", req.body);
+  const {
+    roomNumber,
+    checkInDate,
+    checkOutDate,
+    guestName,
+    guestContact,
+    roomType,
+  } = req.body;
 
   // Insert into the Room table
-  const roomSql = "INSERT INTO Room (`Room_ID`, `Room_Type`) VALUES (?, ?)";
-const roomValues = [roomId, roomType]; 
+  const roomSql = "INSERT INTO Room (`Room_Number`, `Room_Type`) VALUES (?, ?)";
+  const roomValues = [roomNumber, roomType];
 
-try {
-  await connection.promise().query(roomSql, roomValues);
-} catch (roomErr) {
-  console.error("Error creating room:", roomErr);
-  return res.status(400).json({
-    code: 400,
-    status: "Failed",
-    message: "An Error Occurred while creating room",
-    error: roomErr,
-  });
-}
+  try {
+    
+    await connection.promise().query(roomSql, roomValues);
+  } catch (roomErr) {
+    console.error("Error creating room:", roomErr);
+    return res.status(400).json({
+      code: 400,
+      status: "Failed",
+      message: "An Error Occurred while creating room",
+      error: roomErr,
+    });
+  }
 
   // Insert into the Guest table
-  const guestSql = "INSERT INTO Guest (`Guest_Name`, `Contact_Number`) VALUES (?, ?)";
+  const guestSql =
+    "INSERT INTO Guest (`Guest_Name`, `Contact_Number`) VALUES (?, ?)";
   const guestValues = [guestName, guestContact];
 
   try {
-    const [guestResult] = await connection.promise().query(guestSql, guestValues);
+    const [guestResult] = await connection
+      .promise()
+      .query(guestSql, guestValues);
     const guestId = guestResult.insertId;
 
+    const [roomResult] = await connection
+    .promise()
+    .query(roomSql, roomValues);
+
+  console.log("Room Result:", roomResult);
+
+  // Retrieve the Room_ID after insertion
+  const roomId = roomResult.insertId;
+  
     // Insert into the Reservation table with the retrieved Guest_ID
-    const reservationSql = "INSERT INTO Reservation (`Room_ID`, `Guest_ID`, `Check_In_Date`, `Check_Out_Date`) VALUES (?, ?, ?, ?)";
+    const reservationSql =
+      "INSERT INTO Reservation (`Room_ID`, `Guest_ID`, `Check_In_Date`, `Check_Out_Date`) VALUES (?, ?, ?, ?)";
     const reservationValues = [roomId, guestId, checkInDate, checkOutDate];
 
-    const [reservationResult] = await connection.promise().query(reservationSql, reservationValues);
+    const [reservationResult] = await connection
+      .promise()
+      .query(reservationSql, reservationValues);
 
     return res.status(200).json({
       code: 200,
@@ -90,8 +112,6 @@ try {
     });
   }
 });
-
-  
 
 app.delete("/delete/:id", (req, res) => {
   const sql = "DELETE FROM Reservation WHERE ID = ?";
@@ -134,8 +154,6 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
-
 
 const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {

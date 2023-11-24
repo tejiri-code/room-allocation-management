@@ -16,8 +16,6 @@ function Allocation() {
     roomType: "Standard", // Default room type
   });
 
-
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,7 +39,7 @@ function Allocation() {
       const response = await axios.post(
         "http://localhost:8082/createReservation",
         {
-          roomId: formData.roomNumber,
+          roomNumber: formData.roomNumber,
           checkInDate: formData.checkIn,
           checkOutDate: formData.checkOut,
           guestName: formData.guestName,
@@ -76,7 +74,9 @@ function Allocation() {
       formData.roomNumber &&
       formData.guestName &&
       formData.checkIn &&
-      formData.checkOut
+      formData.checkOut &&
+      formData.guestContact &&
+      formData.roomType
     ) {
       const newRoom = { ...formData };
       setRooms([...rooms, newRoom]);
@@ -86,7 +86,7 @@ function Allocation() {
         checkIn: "",
         checkOut: "",
         guestContact: "",
-        roomType: "Standard",// Reset room type to default after adding a room
+        roomType: "", // Reset room type to default after adding a room
       });
     }
   };
